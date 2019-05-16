@@ -169,17 +169,28 @@ namespace {{packageName}}.Client
         /// <value>Http user agent.</value>
         public virtual string UserAgent { get; set; }
 
+        {{#authMethods}}
+        {{#isBasicBasic}}
         /// <summary>
-        /// Gets or sets the username (HTTP basic authentication).
+        /// Gets or sets the basic username of '{{name}}' (HTTP basic authentication).
         /// </summary>
         /// <value>The username.</value>
-        public virtual string Username { get; set; }
+        public virtual string Username_{{name}} { get; set; }
 
         /// <summary>
-        /// Gets or sets the password (HTTP basic authentication).
+        /// Gets or sets the basic password of '{{name}}' (HTTP basic authentication).
         /// </summary>
         /// <value>The password.</value>
-        public virtual string Password { get; set; }
+        public virtual string Password_{{name}} { get; set; }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        /// <summary>
+        /// Gets or sets the bearer token of '{{name}}' (HTTP bearer authentication).
+        /// </summary>
+        /// <value>The bearer token to use.</value>
+        public virtual string Bearer_{{name}} { get; set; }
+        {{/isBasicBearer}}
+        {{/authMethods}}
 
         /// <summary>
         /// Gets the API key with prefix.
@@ -388,8 +399,15 @@ namespace {{packageName}}.Client
                 BasePath = second.BasePath ?? first.BasePath,
                 Timeout = second.Timeout,
                 UserAgent = second.UserAgent ?? first.UserAgent,
-                Username = second.Username ?? first.Username,
-                Password = second.Password ?? first.Password,
+                {{#authMethods}}
+                {{#isBasicBasic}}
+                Username_{{name}} = second.Username_{{name}} ?? first.Username_{{name}},
+                Password_{{name}} = second.Password_{{name}} ?? first.Password_{{name}},
+                {{/isBasicBasic}}
+                {{#isBasicBearer}}
+                Bearer_{{name}} = second.Bearer_{{name}} ?? first.Bearer_{{name}},
+                {{/isBasicBearer}}
+                {{/authMethods}}
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat

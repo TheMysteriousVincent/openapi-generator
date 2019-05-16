@@ -63,17 +63,28 @@ namespace {{packageName}}.Client
         /// <value>User agent.</value>
         string UserAgent { get; }
 
+        {{#authMethods}}
+        {{#isBasicBasic}}
         /// <summary>
-        /// Gets the username.
+        /// Gets the username of '{{name}}'.
         /// </summary>
         /// <value>Username.</value>
-        string Username { get; }
+        string Username_{{name}} { get; }
 
         /// <summary>
-        /// Gets the password.
+        /// Gets the password of '{{name}}'.
         /// </summary>
         /// <value>Password.</value>
-        string Password { get; }
+        string Password_{{name}} { get; }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        /// <summary>
+        /// Gets the bearer token of '{{name}}'.
+        /// </summary>
+        /// <value>Bearer Token '{{name}}'.</value>
+        string Bearer_{{name}} { get; }
+        {{/isBasicBearer}}
+        {{/authMethods}}
 
         /// <summary>
         /// Gets the API key with prefix.
